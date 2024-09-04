@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Waste Report</title>
+    <link rel="stylesheet" href="style0.css">
+</head>
+<body>
+    <div class="container">
+    <div class="report-container">
+        <h1>Waste Monthly Report: August 2024<button id="downloadReportBtn">Download Report</button>
+        </h1>
+        <div class="report-cards">
+            <div class="report-card">
+                <h2>Total Waste Generated</h2>
+                <p>350 kg</p>
+            </div>
+            <div class="report-card">
+                <h2>Carbon Footprint</h2>
+                <p>200 kg CO2</p>
+            </div>
+            <div class="report-card">
+                <h2>Waste Segregation Efficiency</h2>
+                <p>85%</p>
+            </div>
+            <div class="report-card">
+                <h2>Comparison with Previous Month</h2>
+                <p>Increase of 10%</p>
+            </div>
+        </div>
+    
+        <!-- Waste Trend Canvas Section -->
+        <div class="waste-trend-container">
+            <h2>Waste Trend Last Year</h2>
+            <canvas id="wasteTrendChart" width="1300px" height="300px"></canvas>
+            <!-- <div class="waste-image">
+                <img src="can-294071_640.png" alt="">
+            </div> -->
+        </div>
+    </div>
+
+
+    <!-- last month area chart -->
+
+    <div class="waste-efficiency-container">
+        <h2>Waste Segregation Efficiency and Carbon Footprint</h2>
+        <canvas id="wasteEfficiencyChart" width="1200px" height="300px"></canvas>
+    </div>
+    
+<!-- progrss bar   -->
+
+
+<div class="target-container">
+        <h2>Set My Target</h2>
+        <label for="target">Monthly Garbage Target (kg):</label>
+        <input type="number" id="target" placeholder="Enter your target">
+        <button id="setTargetBtn">Set Target</button>
+        
+        <h3>Daily Input</h3>
+        <label for="dailyInput">Add Daily Garbage (kg):</label>
+        <input type="number" id="dailyInput" placeholder="Enter today's garbage">
+        <button id="addInputBtn">Add</button>
+
+        <canvas id="progressChart" width="400" height="200"></canvas>
+        <div class="notification" id="notification"></div>
+    </div>
+
+
+    <!-- pdf download -->
+
+    <div class="report-download">
+        <div id="totalWasteGenerated">Total Waste Generated: [Value]</div>
+        <div id="carbonFootprint">Carbon Footprint: [Value]</div>
+        <div id="wasteSegregationEfficiency">Waste Segregation Efficiency: [Value]</div>
+        <div id="comparisonWithPreviousMonth">Comparison with Previous Month: [Value]</div>
+        <canvas id="wasteTrendCanvas" width="800" height="300"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script0.js"></script>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Function to download the report as a PDF
+        document.getElementById('downloadReportBtn').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf; // Access jsPDF from the global window object
+            const pdf = new jsPDF(); // Create a new jsPDF instance
+    
+            // Predefined values
+            const companyName = "WasteXpert"; // Your predefined company name
+            const userAddress = "1234 Waghodia, Vadodara, Gujarat, 391760"; // Get the user's address
+            const logoPath = 'WhatsApp Image 2024-09-04 at 1.32.40 PM.jpeg'; // Replace with the path to your logo
+    
+            // Add company logo
+            const img = new Image();
+            img.src = logoPath; // Set the logo path
+            img.onload = function() {
+                pdf.addImage(img, 'PNG', 10, 10, 50, 20); // Add logo to the PDF (adjust dimensions as needed)
+    
+                // Add title and report content
+                pdf.setFontSize(18);
+                pdf.text('Waste Monthly Report: August 2024', 14, 40);
+                pdf.setFontSize(12);
+                pdf.text('-------------------------------------', 14, 46);
+    
+                // Add report content
+                pdf.text(`Company Name: ${companyName}`, 14, 56);
+                pdf.text(`Address: ${userAddress}`, 14, 66);
+                const lineHeight = 10; // Change this value to adjust spacing
+                let y = 56; // Starting Y position
+
+                y += lineHeight; // Move down for the next line
+
+                pdf.text(`Total Waste Generated: 350 Kg`, 14, 76);
+                pdf.text(`Carbon Footprint: 200 kg CO2`, 14, 86);
+                pdf.text(`Waste Segregation Efficiency: 85%`, 14, 96);
+                pdf.text(`Comparison with Previous Month: 10%`, 14, 106);
+                pdf.text(`Increased Waste Types: Plastic`, 14, 116);
+    
+                // Save the PDF
+                pdf.save('Waste_Monthly_Report_August_2024.pdf'); // Name of the downloaded file
+            };
+        });
+    </script>
+    
+
+</body>
+</html>
